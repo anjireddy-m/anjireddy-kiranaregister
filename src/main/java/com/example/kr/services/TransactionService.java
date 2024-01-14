@@ -35,6 +35,12 @@ public class TransactionService {
         this.currencyConversionService = currencyConversionService;
     }
 
+     /**
+     * Records a transaction in the database.
+     *
+     * @param tRequest The transaction request containing transaction details.
+     * @return The recorded transaction.
+     */
     @Transactional
     public Transaction recordTransaction(TransactionRequest tRequest) {
         // BigDecimal convertedAmount = convertCurrency(amount, currency);
@@ -45,44 +51,48 @@ public class TransactionService {
         return transactionRepository.save(transaction);
     }
 
+    /**
+     * Retrieves all transactions from the database.
+     *
+     * @return List of all transactions.
+     */
     public List<Transaction> getAllTransactions() {
         return transactionRepository.findAll();
     }
 
-  
 
-    public List<Transaction> getTransactionsForDate(LocalDate date) {
-        return transactionRepository.findByTimestampBetween(
-                date.atStartOfDay(), date.plusDays(1).atStartOfDay().minusSeconds(1));
-    }
-
-    // Updated method for calculating daily report with total amounts in INR
+    /**
+     * Retrieves a daily report for the specified date, including total amounts in INR.
+     *
+     * @param date The date for which the daily report is generated.
+     * @return The daily report response.
+     */
     public DailyReportResponse getDailyReport(LocalDate date) {
         List<Transaction> transactions = transactionRepository.findByTimestampBetween(
                 date.atStartOfDay(), date.plusDays(1).atStartOfDay().minusSeconds(1));
         Map<String, BigDecimal> totalAmounts = new HashMap<>();
         List<Transaction> transactionsOnDay = new ArrayList<>();
 
-        CurrencyConversionResponse curResponce = currencyConversionService.callCurrencyConversionApi();
+        CurrencyConversionResponse curResponse = currencyConversionService.callCurrencyConversionApi();
+        BigDecimal inrConversionRate = curResponse.getRates().get("INR");
 
         for (Transaction transaction : transactions) {
-                BigDecimal amount = transaction.getAmount();
-                String currency = transaction.getCurrency();
+            BigDecimal amount = transaction.getAmount();
+            String currency = transaction.getCurrency();
 
-                // Update total amounts map
-                totalAmounts.put(currency, totalAmounts.getOrDefault(currency, BigDecimal.ZERO).add(amount));
+            // Update total amounts map
+            totalAmounts.put(currency, totalAmounts.getOrDefault(currency, BigDecimal.ZERO).add(amount));
 
-                // Perform currency conversion to INR using the API
-                if (currency.equals("USD")) {
-                    amount = currencyConversionService.convertCurrencyToInr(amount, currency, curResponce);
-                }
+            // Perform currency conversion to INR using the API
+            if (!currency.equals("INR")) {
+                amount = amount.multiply(inrConversionRate);
                 totalAmounts.put("GRAND TOTAL (INR)",
                         totalAmounts.getOrDefault("GRAND TOTAL (INR)", BigDecimal.ZERO).add(amount));
+            }
 
-                // Add the transaction to the list of transactions on that day
-                transactionsOnDay.add(transaction);
+            // Add the transaction to the list of transactions on that day
+            transactionsOnDay.add(transaction);
         }
         return new DailyReportResponse(transactionsOnDay, totalAmounts, date);
     }
-
 }

@@ -1,0 +1,244 @@
+{
+	"info": {
+		"_postman_id": "e9d1edd0-dde0-41fb-8514-c265bf3d78e1",
+		"name": "Anji Reddy-Kirana Register",
+		"description": "collection containig the apis for KiranaRigister application",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10437024",
+		"_collection_link": "https://dark-robot-598302.postman.co/workspace/slate~b805b1bc-1aec-4103-901d-3ccd63d77d86/collection/10437024-e9d1edd0-dde0-41fb-8514-c265bf3d78e1?action=share&source=collection_link&creator=10437024"
+	},
+	"item": [
+		{
+			"name": "allTransactions",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/transactions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"transactions"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "all",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/transactions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"transactions"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 14 Jan 2024 02:51:06 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": \"411eb076-c97f-41af-84c3-7e4faec63e9f\",\n        \"amount\": 102,\n        \"currency\": \"USD\",\n        \"timestamp\": \"2024-01-14T08:20:52.659217\",\n        \"customerName\": \"hello\",\n        \"customerEmail\": \"World@gg.cc\",\n        \"cardDetails\": {\n            \"id\": \"442f628f-8b22-4624-bb97-1642b1ddbf31\",\n            \"name\": \"John Doe\",\n            \"expDate\": \"11/22\",\n            \"lastFourDigits\": \"1234\",\n            \"cardType\": \"CREDIT\"\n        }\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "getDailyReport",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/transactions/daily-report?date=2024-01-13",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"transactions",
+						"daily-report"
+					],
+					"query": [
+						{
+							"key": "date",
+							"value": "2024-01-13"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "bydate",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/transactions/daily-report?date=2024-01-14",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"transactions",
+								"daily-report"
+							],
+							"query": [
+								{
+									"key": "date",
+									"value": "2024-01-14"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 14 Jan 2024 02:50:58 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"date\": \"2024-01-14\",\n    \"totalAmounts\": {\n        \"GRAND TOTAL (INR)\": 8442.4038779196,\n        \"USD\": 102\n    },\n    \"transactions\": [\n        {\n            \"id\": \"411eb076-c97f-41af-84c3-7e4faec63e9f\",\n            \"amount\": 102,\n            \"currency\": \"USD\",\n            \"timestamp\": \"2024-01-14T08:20:52.659217\",\n            \"customerName\": \"hello\",\n            \"customerEmail\": \"World@gg.cc\",\n            \"cardDetails\": {\n                \"id\": \"442f628f-8b22-4624-bb97-1642b1ddbf31\",\n                \"name\": \"John Doe\",\n                \"expDate\": \"11/22\",\n                \"lastFourDigits\": \"1234\",\n                \"cardType\": \"CREDIT\"\n            }\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "recordTransaction",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"amount\": 100.00, \"currency\": \"USD\", \"cardDetails\": {\"name\": \"John Doe\", \"expDate\": \"MM/YY\", \"lastFourDigits\": \"1234\", \"cardType\": \"CREDIT\"}}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/transactions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"transactions"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "record",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"amount\": 102.00,\r\n    \"currency\": \"USD\",\r\n    \"customerName\":\"hello\",\r\n    \"customerEmail\" : \"World@gg.cc\",\r\n    \"cardDetails\": {\r\n        \"name\": \"John Doe\",\r\n        \"expDate\": \"11/22\",\r\n        \"lastFourDigits\": \"1234\",\r\n        \"cardType\": \"CREDIT\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/transactions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"transactions"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 14 Jan 2024 02:50:52 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": \"411eb076-c97f-41af-84c3-7e4faec63e9f\",\n    \"amount\": 102,\n    \"currency\": \"USD\",\n    \"timestamp\": \"2024-01-14T08:20:52.6592168\",\n    \"customerName\": \"hello\",\n    \"customerEmail\": \"World@gg.cc\",\n    \"cardDetails\": {\n        \"id\": \"442f628f-8b22-4624-bb97-1642b1ddbf31\",\n        \"name\": \"John Doe\",\n        \"expDate\": \"11/22\",\n        \"lastFourDigits\": \"1234\",\n        \"cardType\": \"CREDIT\"\n    }\n}"
+				}
+			]
+		}
+	]
+}

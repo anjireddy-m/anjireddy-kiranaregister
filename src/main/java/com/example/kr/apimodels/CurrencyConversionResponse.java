@@ -5,19 +5,37 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Map;
 
+/**
+ * Represents the response from a currency conversion API.
+ */
 public class CurrencyConversionResponse {
 	
-	private boolean success;
+	/**
+     * Indicates whether the currency conversion was successful.
+     */
+    private boolean success;
+
+    /**
+     * The timestamp of the currency conversion response.
+     */
     private long timestamp;
+
+    /**
+     * The base currency used for the conversion.
+     */
     private String base;
 
+    /**
+     * A map containing currency codes as keys and their corresponding conversion rates as values.
+     */
     @JsonProperty("rates")
     private Map<String, BigDecimal> rates;
 
-    // Constructors, getters, and setters
-
+    /**
+     * Default constructor for the CurrencyConversionResponse class.
+     */
     public CurrencyConversionResponse() {
-        // Default constructor 
+        // Default constructor
     }
 
     public boolean isSuccess() {

@@ -2,6 +2,9 @@ package com.example.kr.utils;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
+/**
+ * Enumeration representing different card types.
+ */
 public enum CardType {
     CREDIT,
     DEBIT;
